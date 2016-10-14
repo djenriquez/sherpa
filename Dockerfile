@@ -1,10 +1,33 @@
-FROM nginx:1.11.5
+FROM python:3.5-slim
 
-RUN rm -rf /etc/nginx/*
+# Install NGINX, steps retrieved from https://github.com/nginxinc/docker-nginx/blob/master/mainline/jessie/Dockerfile
+####
+# Copyright (C) 2011-2016 Nginx, Inc.
+# All rights reserved.
+ENV NGINX_VERSION 1.11.5-1~jessie
 
-ADD src/proxy.conf /etc/nginx/proxy.conf
-ADD start.sh /opt/start.sh
+RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
+	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
+	&& apt-get update \
+	&& apt-get install --no-install-recommends --no-install-suggests -y \
+						ca-certificates \
+						nginx=${NGINX_VERSION} \
+						nginx-module-xslt \
+						nginx-module-geoip \
+						nginx-module-image-filter \
+						nginx-module-perl \
+						nginx-module-njs \
+						gettext-base \
+	&& rm -rf /var/lib/apt/lists/*
+####
+
+ENV APP_DIR=/opt/sherpa
+WORKDIR $APP_DIR
+
+ADD . $APP_DIR
+
+RUN rm -rf /etc/nginx/* && cp nginx/nginx.conf /etc/nginx/nginx.conf && cp -r nginx/api-restrictions /etc/nginx/conf.d
 
 EXPOSE 4550
 
-CMD ["/opt/start.sh"]
+ENTRYPOINT ["./main"]
