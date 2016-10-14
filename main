@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+from src import init
+from src import nginx
+import logging
+
+if __name__ == '__main__':
+    try:
+        init.initialize_logger()
+        nginx = nginx.NGINX()
+    except Exception:
+        logging.critical("unhandled exception", exc_info=True)
+        raise
