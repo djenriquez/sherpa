@@ -29,7 +29,7 @@ RUN pip install -r requirements.txt
 
 COPY . $APP_DIR
 
-RUN rm -rf /etc/nginx/* && mkdir -p /etc/nginx/conf.d && mkdir -p /etc/config && \
+RUN rm -rf /etc/nginx/* && mkdir -p /etc/nginx/conf.d && mkdir -p /etc/sherpa && \
 	cp nginx/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 4550

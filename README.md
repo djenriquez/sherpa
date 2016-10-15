@@ -6,7 +6,7 @@ The current recommendation to enable Docker's remote API is to [change the daemo
 # ACL Configuration
 Sherpa has two access modes, `--allow` and `--deny`(default). In `allow` mode, access to the Docker API is implicitly allowed. Meaning, you must explicitly define endpoints and HTTP methods that are forbidden. In `--deny` mode, the default mode, the reverse is true: access to the API is implicitly forbidden. Paths must be explicitly defined.
 
-Paths can be configured using the `$CONFIG` environment variable with a json blob passed in and/or by mounting config files to `/etc/config`. This blob has the following schema:
+Paths can be configured using the `$CONFIG` environment variable with a json blob passed in and/or by mounting config files to `/etc/sherpa`. This blob has the following schema:
 ```json
 [
     { 

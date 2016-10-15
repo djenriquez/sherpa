@@ -9,9 +9,9 @@ def initialize_logger():
 def load_configuration():
     config = []
     # Parse mounted configuration
-    for filename in os.listdir('/etc/config/'):
-        conf = open('/etc/config/{}'.format(filename), 'r').read()
-        config += json.loads(conf)
+    for filename in os.listdir('/etc/sherpa/'):
+        with open('/etc/sherpa/{}'.format(filename), 'r') as conf:
+            config += json.loads(conf.read())
 
     # Add env config
     env_config = os.getenv('CONFIG', default=None)
@@ -19,6 +19,6 @@ def load_configuration():
         config += json.loads(env_config)
     
     # Create main configuration
-    f = open('/opt/sherpa/config.json', 'w+')
-    f.write(json.dumps(config))
+    with open('/opt/sherpa/config.json', 'w+') as f:
+        f.write(json.dumps(config))
         
