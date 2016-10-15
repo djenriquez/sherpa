@@ -2,12 +2,23 @@
 
 from src import init
 from src import nginx
+from src import acl
 import logging
+import click
+
+@click.command()
+@click.option('--deny', 'acl_mode', flag_value='deny', default=True, help='Sets ACL to implicitly deny  - Default mode')
+@click.option('--allow', 'acl_mode', flag_value='allow',  help='Sets ACL to implicitly allow')
+def sherpa(acl_mode):
+    acl_obj = acl.ACL(acl_mode)
+    nginx_obj = nginx.NGINX()
+
 
 if __name__ == '__main__':
     try:
         init.initialize_logger()
-        nginx = nginx.NGINX()
+        init.load_configuration()
+        sherpa()
     except Exception:
         logging.critical("unhandled exception", exc_info=True)
         raise
