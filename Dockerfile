@@ -20,13 +20,17 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 						gettext-base \
 	&& rm -rf /var/lib/apt/lists/*
 ####
-
 ENV APP_DIR=/opt/sherpa
 WORKDIR $APP_DIR
 
-ADD . $APP_DIR
+# Cache requirements packages
+COPY ./requirements.txt $APP_DIR
+RUN pip install -r requirements.txt
 
-RUN rm -rf /etc/nginx/* && cp nginx/nginx.conf /etc/nginx/nginx.conf && cp -r nginx/api-restrictions /etc/nginx/conf.d
+COPY . $APP_DIR
+
+RUN rm -rf /etc/nginx/* && mkdir -p /etc/nginx/conf.d && \
+	cp nginx/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 4550
 
