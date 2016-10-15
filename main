@@ -20,5 +20,5 @@ if __name__ == '__main__':
         init.load_configuration()
         sherpa()
     except Exception:
-        logging.critical("unhandled exception", exc_info=True)
+        logging.critical('unhandled exception', exc_info=True)
         raise

@@ -7,7 +7,7 @@ class NGINX:
 
     def _parse_output(self, process):
         for line in iter(process.stdout.readline, b''):
-            log = line.decode("utf-8");
+            log = line.decode('utf-8')
             print(log)
 
     def _start_nginx(self):
