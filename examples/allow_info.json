@@ -1,0 +1,7 @@
+[
+    { 
+        "Path" : "/info",
+        "Access": "allow",
+        "Methods": ["GET"]
+    }
+]
