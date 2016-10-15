@@ -28,6 +28,7 @@ Multiple ACLs can be defined to create a strictly contained remote API. Here are
 ### Full access
 ```bash
 docker run -d \
+--name sherpa \
 -v /var/run/docker.sock:/tmp/docker.sock \
 -p 4550:4550 \
 djenriquez/sherpa --allow
@@ -36,6 +37,7 @@ djenriquez/sherpa --allow
 ### Access to /containers/json GET only
 ```bash
 docker run -d \
+--name sherpa \
 -e CONFIG='[
     { 
         "Path" : "/containers/json",
