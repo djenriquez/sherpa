@@ -12,13 +12,15 @@ Paths can be configured using the `$CONFIG` environment variable with a json blo
     { 
         "Path" : "STRING",
         "Access": "allow|deny",
-        "Methods": ["STRING"]
+        "Methods": ["STRING"],
+        "Addresses": ["STRING"]
     }
 ]
 ```
 - "Path": The URI path to configure
 - "Access": The access mode. Accepts "allow" or "deny"
-- "Methods": The HTTP Methods to allow. *Note*: If access is "deny", this is ignored.
+- "Methods": The HTTP Methods to allow. Ignored if access is "deny".
+- "Addresses": Specific addresses to allow. See [NGINX allow](http://nginx.org/en/docs/http/ngx_http_access_module.html#allow) for accepted values. Ignored if access is "deny".
 
 Admins can also restrict access to Sherpa by using a combination of volume mounting permissions and IP binding.
 
@@ -76,6 +78,22 @@ docker run -d \
     }
 ]' \
 -v `pwd`/examples:/etc/sherpa \
+-v /var/run/docker.sock:/tmp/docker.sock \
+-p 4550:4550 \
+djenriquez/sherpa --allow
+```
+
+### Full access to internal IPs only
+```bash
+docker run -d \
+--name sherpa \
+-e CONFIG='[
+    { 
+        "Path" : "/",
+        "Access": "allow",
+        "Addresses": ["10.0.0.0/8", "192.168.0.0/16", "172.0.0.0/8"]
+    }
+]' \
 -v /var/run/docker.sock:/tmp/docker.sock \
 -p 4550:4550 \
 djenriquez/sherpa --allow
