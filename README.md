@@ -1,5 +1,5 @@
 # Sherpa
-Enable Docker's remote API via reverse-proxy
+[![](https://images.microbadger.com/badges/image/djenriquez/sherpa.svg)](https://microbadger.com/images/djenriquez/sherpa)
 
 The current recommendation to enable Docker's remote API is to [change the daemon configuration and then restart](https://docs.docker.com/engine/admin/#/configuring-docker). With Sherpa, you simply need to run the container and you'll have access to the docker.sock via TCP.
 
