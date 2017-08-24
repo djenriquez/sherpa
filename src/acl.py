@@ -40,12 +40,13 @@ class ACL:
             methods = self._default_allowed_methods if 'Methods' not in acl else acl['Methods']
             addresses = ['0.0.0.0/0'] if 'Addresses' not in acl else acl['Addresses']
             
-            random_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(CONST_CONFIG_FILENAME_SIZE))
-
+            file_name = '+'.join([acl['Access']] + [acl['Path']] + methods + addresses)
+            file_name = '_'.join(re.split('[^+.\w]', file_name))
+            
             config = self._template.render(allow=access, path=path, allowed_methods=methods, exact=True, compare=('regex' if '*' in path else 'exact'), addresses=addresses)
             
             # create configs
-            with open('/etc/nginx/conf.d/{}.conf'.format(random_name), 'w+') as f:
+            with open('/etc/nginx/conf.d/{}.conf'.format(file_name), 'w+') as f:
                 f.write(config)
 
 
